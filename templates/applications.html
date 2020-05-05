@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- metadata goes in head -->
+
+<title>Add Application</title>
+</head>
+<body>
+<h1>Submit an Application</h1>
+
+<p>This page contains the form to submit an adoption application for a dog.</p>
+
+
+<form action="/my-form-submitting-page" method="post">
+    <fieldset>
+        <legend>Please fill out the following information:</legend>
+        <label for="date">Date:</label>
+        <input for="date" type="date" name="appDate">
+
+        <label for="adopterID">Adopter ID:</label>
+        <input name="adopterID" id="adopterID" type="text">
+
+        <label for="shelterID">Shelter ID:</label>
+        <input name="shelterID" id="shelterID" type="text">
+
+        <label for="counselorID">Counselor ID:</label>
+        <input name="counselorID" id="counselorID" type="text">
+
+        <label for="petID1">Pet ID:</label>
+        <input name="petID1" id="petID1" type="text">
+        <br>
+        <label for="petID2">Pet ID:</label>
+        <input name="petID2" id="petID2" type="text">
+        <br>
+        <label for="petID3">Pet ID:</label>
+        <input name="petID3" id="petID3" type="text">
+        <br>
+        Meet & Greet:
+        <select name="meetGreet">
+        <option>N/A</option>
+        <option>Required</option>
+        <option>Completed</option>
+        </select>
+    <br>
+    <br>
+    Please describe your living situation:
+    <br>
+    <br>
+    <label for="numAdults">Number of Adults(18 years or older):</label>
+    <input name="numAdults" id="numAdults" type="number">
+    <br>
+    <label for="numChildren">Number of Children:</label>
+    <input name="numChildren" id="numChildren" type="number">
+    <br>
+    <label for="numAnimals">Number of Pets:</label>
+    <input name="numAnimals" id="numAnimals" type="text">
+    <br>
+    <label>
+        <input type="radio" name="homeType" value="Single-family home" />Single-family home</label>
+    <label>
+        <input type="radio" name="homeType" value="Multi-family home" />Multi-family home</label>
+    <label>
+        <input type="radio" name="homeType" value="Apartment" />Apartment</label>
+    <label>
+        <input type="radio" name="homeType" value="Condo" />Condo</label>
+
+    <label>
+        <input type="radio" name="homeType" value="Condo" />Duplex</label>
+    <br>
+    <label>
+        <input type="radio" name="homeStatus" value="Homeowner" />Homeowner</label>
+
+    <label>
+        <input type="radio" name="homeStatus" value="Renter" />Renter</label>
+
+    <label>
+        <input type="radio" name="homeStatus" value="Live with Parents" />Live with Parents</label>
+    <br>     
+    </fieldset>
+    <button>Submit Application</button>
+</form>
+
+
+
+</body>
+</html>

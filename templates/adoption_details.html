@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+   <!-- metadate goes in head -->
+
+   <title>Adoption Details</title>
+</head>
+<body>
+<h1>Adoption Details</h1>
+
+<p>This page shows the status of submitted applications. Users can update the application status, and add or delete a pet from an application.</p>
+
+<form action="/my-form-submitting-page" method="post">
+    <fieldset>
+      <legend>Add a pet to an application</legend>
+
+        <label for="appID">App ID:</label>
+        <input name="appID" id="appID" type="text">
+
+        <label for="petID">Pet ID:</label>
+        <input name="petID" id="petID" type="text">
+
+        Status:
+        <select name="appStatus">
+        <option>Pending</option>
+        <option>Approved</option>
+        <option>Denied</option>
+        </select>
+        <button>Add</button>
+    </fieldset>
+</form>
+
+<table>
+ <thead>
+  <tr>
+   <th> App ID
+   <th> Date
+   <th> Adopter First Name
+   <th> Adopter Last Name
+   <th> Counselor First Name
+   <th> Counselor Last Name
+   <th> Pet ID
+   <th> Status
+   <th> &nbsp;
+ <tbody>
+  <tr>
+   <td> 100 
+   <td> 06-13-1987
+   <td> Ryan
+   <td> Orange
+   <td> Cynthia
+   <td> Green
+   <td> 909
+   <td> Pending
+   <td> <button>Delete</button><button>Update</button>
+  <tr>
+   <td> 101 
+   <td> 01-13-1990
+   <td> Anna
+   <td> Duke
+   <td> Adam
+   <td> Apple
+   <td> 901
+   <td> Pending
+   <td> <button>Delete</button><button>Update</button>
+   <tr>
+   <td> 100 
+   <td> 06-13-1987
+   <td> Ryan
+   <td> Orange
+   <td> Cynthia
+   <td> Green
+   <td> 920
+   <td> Pending
+   <td> <button>Delete</button><button>Update</button>
+</table>
+
+</body>
+</html>
