@@ -7,35 +7,89 @@
    <title>View Applications</title>
 </head>
 <body>
+
+<!-- NAV BAR -->
+<nav>
+	<div class="logo">
+		<h4> Navigation </h4>
+	</div>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="adopters.html">Adopters</a>
+        </li>
+        <li>
+            <a href="counselors.html">Counselors</a>
+        </li>
+        <li>
+            <a href="dogs.html">Dogs</a>
+        </li>
+        <li>
+            <a href="add_dog.html">Add Dog</a>
+        </li>
+        <li>
+            <a class="active" href="applications.html">Applications</a>
+        </li>
+        <li>
+            <a href="add_application.html">New Application</a>
+        </li>
+        <li>
+            <a href="adoption_detils.html">Adoption Details</a>
+        </li>
+    </ul>
+</nav>
+<!-- end navbar --> 
+
 <h1>Applications</h1>
 <p>This page will show a limited version of the applications database. The view button will allow users to view the full table with all the data from the application. On the view page, users will be able to update and delete the application.</p>
+<form>
+   <fieldset>
+      <legend>Search for an application by:</legend>
+      <label for="appID">App ID:</label>
+      <input name="appID" id="appID" type="text">
+      <button>Search</button>
+      <br>
+      <br>
+      Adopter Information:<br>
+      <label for="fname">First Name:</label>
+        <input name="fname" id="fname" type="text">
+
+        <label for="lname">Last Name:</label>
+        <input name="lname" id="lname" type="text">
+        <button>Search</button>
+   </fieldset>
+</form>
+<br>
 <button onclick="window.location.href = 'add_application.html';">Add New Application</button>
 <table>
  <thead>
   <tr>
    <th> App ID
    <th> Date
-   <th> Adopter ID
-   <th> Counselor ID
+   <th> First Name
+   <th> Last Name
+   <th> Pet ID1
+   <th> Pet ID2
+   <th> Pet ID3
    <th> &nbsp;
  <tbody>
   <tr>
    <td> 100 
    <td> 06-13-1987
-   <td> 1
-   <td> 2332
+   <td> Jenny
+   <td> Tutone
+   <td> 00
+   <td> null
+   <td> null
    <td> <button>View</button>
   <tr>
    <td> 101 
    <td> 01-13-1990
-   <td> 2
-   <td> 4567
-   <td> <button>View</button>
-   <tr>
-   <td> 102
-   <td> 03-21-2000
-   <td> 3
-   <td> 6789
+   <td> Mark
+   <td> Neil
+   <td> null
+   <td> null
+   <td> null
    <td> <button>View</button>
 </table>
 

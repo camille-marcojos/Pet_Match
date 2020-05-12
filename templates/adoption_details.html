@@ -7,9 +7,82 @@
    <title>Adoption Details</title>
 </head>
 <body>
+
+<!-- NAV BAR -->
+<nav>
+	<div class="logo">
+		<h4> Navigation </h4>
+	</div>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="adopters.html">Adopters</a>
+        </li>
+        <li>
+            <a href="counselors.html">Counselors</a>
+        </li>
+        <li>
+            <a href="dogs.html">Dogs</a>
+        </li>
+        <li>
+            <a href="add_dog.html">Add Dog</a>
+        </li>
+        <li>
+            <a href="applications.html">Applications</a>
+        </li>
+        <li>
+            <a href="add_application.html">New Application</a>
+        </li>
+        <li>
+            <a class="active" href="adoption_detils.html">Adoption Details</a>
+        </li>
+    </ul>
+</nav>
+<!-- end navbar --> 
+
 <h1>Adoption Details</h1>
 
 <p>This page shows the status of submitted applications. Users can update the application status, and add or delete a pet from an application.</p>
+
+<form>
+  <fieldset>
+     <legend>Search by:</legend>
+     <label for="appID">App ID:</label>
+     <input name="appID" id="appID" type="text">
+     <button>Search</button>
+     <br>
+     <label for="petID">Pet ID:</label>
+     <input name="petID" id="petID" type="text">
+     <button>Search</button>
+     <br>
+     App Status:
+     <select name="search_appStatus">
+     <option>Pending</option>
+     <option>Approved</option>
+     <option>Denied</option>
+     </select>
+     <button>Search</button>
+     <br>
+     <br>
+     Adopter Information:<br>
+     <label for="adopter_fname">First Name:</label>
+       <input name="adopter_fname" id="adopter_fname" type="text">
+       <label for="adopter_lname">Last Name:</label>
+       <input name="adopter_lname" id="adopter_lname" type="text">
+       <button>Search</button>
+    <br>
+    <br>
+     Counselor Information:<br>
+     <label for="counselor_fname">First Name:</label>
+       <input name="counselor_fname" id="counselor_fname" type="text">
+       <label for="counselor_lname">Last Name:</label>
+       <input name="counselor_lname" id="counselor_lname" type="text">
+       <label for="counselorID">ID:</label>
+       <input name="counselorID" id="counselorID" type="text">
+       <button>Search</button>
+  </fieldset>
+</form>
+<br>
 
 <form>
     <fieldset>
