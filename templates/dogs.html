@@ -1,4 +1,6 @@
-<link rel="stylesheet" type="text/css" href="style.css">
+<html>
+    <head><title>Browse Dogs</title></head>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
 <!-- NAV BAR -->
 <nav>
@@ -82,28 +84,42 @@
 <table>
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Pet ID</th>
+            <th>Shelter</th>
             <th>Name</th>
-            <th>Age</th>
+            <th>Birthday</th>
+            <th>Gender</th>
             <th>Breed</th>
             <th>Size</th>
-            <th>Color</th>
             <th>Status</th>
+            <th>Energy Level</th>
+            <th>Coat</th>
+            <th>Color</th>
+            <th>Dogs OK</th>
+            <th>Cats OK</th>
+            <th>Kids OK</th>
         </tr>
     </thead>
     <tbody>
+        {% for r in rows %}
         <tr>
-            <td>00</td>
-            <td>Bane</td>
-            <td>6y</td>
-            <td>Boxer</td>
-            <td>Large</td>
-            <td>Brindle</td>
-            <td>Adopted</td>
-            <td>
-                <button>view</button>           
-            </td>
+            <td>{{ r.0 }}</td>
+            <td>{{ r[1] }}</td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ r[4] }}</td>
+            <td>{{ r[5] }}</td>
+            <td>{{ r[6] }}</td>
+            <td>{{ r[7] }}</td>
+            <td>{{ r[8] }}</td>
+            <td>{{ r[9] }}</td>
+            <td>{{ r[10] }}</td>
+            <td>{{ r[11] }}</td>
+            <td>{{ r[12] }}</td>
+            <td>{{ r[13] }}</td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>
 </div>
+</html>

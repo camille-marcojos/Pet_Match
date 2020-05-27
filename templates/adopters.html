@@ -1,4 +1,6 @@
-<link rel="stylesheet" type="text/css" href="style.css">
+<html>
+    <head><title>Browse Adopters</title></head>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
 <!-- NAV BAR -->
 <nav>
@@ -36,8 +38,8 @@
 
 <h1>Adopters</h1>
 <div id="adopter_form">
-    <fieldset>
-        <legend><h2>Add New Adopter:</h2></legend><br/>
+    <h2>Add New Adopter:</h2><br/>
+    <form id="addadopter" action="/adopters" method="post">
         <label>First Name:</label>
         <input type="text" name="fname" id="fname">
         <br />
@@ -54,10 +56,10 @@
         <input type="street" name="street" id="street" placeholder="street"> <br />
         <input type="city" name="city" id="state" placeholder="city">
         <input type="state" name="state" id="state" placeholder="state">
-        <input type="zip" name="zip" id="zip" placeholder="zip"> <br />
+        <input type="zip" name="zipcode" id="zipcode" placeholder="zip"> <br />
 
-        <input type="submit">
-    </fieldset>
+        <input type="submit" value="Submit">
+    </form>
 </div>
 <div>
     <input type="search" id="adopterSearch" placeholder="Search for adopter.."><button>Search</button><br />
@@ -71,20 +73,30 @@
             <th>Last Name</th>
             <th>Phone</th>
             <th>E-mail</th>
-            <th>Address</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
         </tr>
     </thead>
     <tbody>
+        {% for r in rows %}
         <tr>
-            <td>000</td>
-            <td>Jenny</td>
-            <td>Tutone</td>
-            <td>415-867-5309</td>
-            <td>j.tutone@gmail.com</td>
-            <td>1882 Gerard Street, San Francisco, California</td>
-            <td><button>Update</button><button>Delete</button></td>
+            <td>{{ r[0] }}</td>
+            <td>{{ r[1] }}</td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[7] }}</td>
+            <td>{{ r[8] }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ r[4] }}</td>
+            <td>{{ r[5] }}</td>
+            <td>{{ r[6] }}</td>
+            <td><button>Update</button></td>
+            <td><button>Delete</button></td>
 
         </tr>
+        {% endfor %}
     </tbody>
 </table>
 </div>
+</html>

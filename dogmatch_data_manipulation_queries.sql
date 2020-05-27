@@ -72,7 +72,7 @@ DELETE FROM AdoptionDetails WHERE app_num = :app_num_selected_from_list AND petI
 ----------------- QUERIES FOR DOGS -----------------
 --to do: calculate age from birthday (to be able to display and filter by)
 --display table on Dogs page
-SELECT petID, name, birthday, breed, size, color, adoption_status FROM Dogs;
+SELECT * FROM Dogs;
 --filter by breed
 SELECT petID, name, birthday, breed, size, color, adoption_status FROM Dogs
 WHERE breed = :breedSelectInput;
