@@ -1,4 +1,5 @@
 @webapp.route('/dogs')
+#the name of this function is just a cosmetic thing
 def browse_dogs():
     print("Fetching and rendering dogs web page")
     db_connection = connect_to_database()
