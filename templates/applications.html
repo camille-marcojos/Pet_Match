@@ -3,8 +3,8 @@
 <head>
 
    <!-- metadate goes in head -->
-   <link rel="stylesheet" type="text/css" href="style.css">
-
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   
    <title>View Applications</title>
 </head>
 <body>
@@ -16,28 +16,28 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
         </li>
         <li>
-            <a href="adopters.html">Adopters</a>
+            <a href="/adopters">Adopters</a>
         </li>
         <li>
-            <a href="counselors.html">Counselors</a>
+            <a href="/counselors">Counselors</a>
         </li>
         <li>
-            <a href="dogs.html">Dogs</a>
+            <a href="/dogs">Dogs</a>
         </li>
         <li>
-            <a href="add_dog.html">Add Dog</a>
+            <a href="/add_dog">Add Dog</a>
         </li>
         <li>
-            <a class="active" href="applications.html">Applications</a>
+            <a class="active" href="/applications">Applications</a>
         </li>
         <li>
-            <a href="add_application.html">New Application</a>
+            <a href="/add_application">New Application</a>
         </li>
         <li>
-            <a href="adoption_details.html">Adoption Details</a>
+            <a href="/adoption_details">Adoption Details</a>
         </li>
     </ul>
 </nav>
@@ -63,7 +63,7 @@
    </fieldset>
 </form>
 <br>
-<button onclick="window.location.href = 'add_application.html';">Add New Application</button>
+<button onclick="window.location.href = '/add_application';">Add New Application</button>
 <table>
  <thead>
   <tr>
@@ -76,25 +76,18 @@
    <th> Pet ID3
    <th> &nbsp;
  <tbody>
+    {% for r in rows %}
   <tr>
-   <td> 100 
-   <td> 06-13-1987
-   <td> Jenny
-   <td> Tutone
-   <td> 00
-   <td> null
-   <td> null
-   <td> <button>View</button>
-  <tr>
-   <td> 101 
-   <td> 01-13-1990
-   <td> Mark
-   <td> Neil
-   <td> null
-   <td> null
-   <td> null
-   <td> <button>View</button>
+    <td> {{ r[0] }}</td>
+    <td> {{ r[1] }}</td>
+    <td> {{ r[2] }}</td>
+    <td> {{ r[3] }}</td>
+    <td> {{ r[4] }}</td>
+    <td> {{ r[5] }}</td>
+    <td> {{ r[6] }}</td>
+   <td> <button>View</button></td>
+   </tr>
+   {% endfor %}
 </table>
-
 </body>
 </html>

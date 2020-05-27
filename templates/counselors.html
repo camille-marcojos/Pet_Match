@@ -3,8 +3,8 @@
 <head>
 
    <!-- metadate goes in head -->
-   <link rel="stylesheet" type="text/css" href="style.css">
-
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   
    <title>Counselors</title>
 </head>
 <body>
@@ -16,28 +16,28 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
         </li>
         <li>
-            <a href="adopters.html">Adopters</a>
+            <a href="/adopters">Adopters</a>
         </li>
         <li>
-            <a class="active" href="counselors.html">Counselors</a>
+            <a class="active" href="/counselors">Counselors</a>
         </li>
         <li>
-            <a href="dogs.html">Dogs</a>
+            <a href="/dogs">Dogs</a>
         </li>
         <li>
-            <a href="add_dog.html">Add Dog</a>
+            <a href="/add_dog">Add Dog</a>
         </li>
         <li>
-            <a href="applications.html">Applications</a>
+            <a href="/applications">Applications</a>
         </li>
         <li>
-            <a href="add_application.html">New Application</a>
+            <a href="/add_application">New Application</a>
         </li>
         <li>
-            <a href="adoption_details.html">Adoption Details</a>
+            <a href="/adoption_details">Adoption Details</a>
         </li>
     </ul>
 </nav>
@@ -47,7 +47,7 @@
 
 <p>This page will show all the counselors employed by the shelter.</p>
 
-<form>
+<form id="addcounselor" action="/counselors" method="post">
     <fieldset>
     	<legend>Add a Counselor</legend>
 
@@ -72,24 +72,17 @@
    <th> Shelter ID
    <th> &nbsp;
  <tbody>
-  <tr>
-   <th> 2332
-   <td> Matt
-   <td> Brown
-   <td> 01
-   <td> <button>Update</button><button>Delete</button>
-  <tr>
-   <th> 4567
-   <td> Cynthia
-   <td> Green
-   <td> 01
-   <td> <button>Update</button><button>Delete</button>
-   <tr>
-   <th> 6789
-   <td> Adam
-   <td> Apple
-   <td> 01
-   <td> <button>Update</button><button>Delete</button>
+    {% for r in rows %}
+    <tr>
+        <td> {{ r[0] }}</td>
+        <td> {{ r[1] }}</td>
+        <td> {{ r[2] }}</td>
+        <td> {{ r[3] }}</td>
+        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_dog/{{r[0]}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[4]}}'"> </td>
+      </tr>
+      {% endfor %}
+ </tbody>
 </table>
 
 </body>

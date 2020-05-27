@@ -1,7 +1,7 @@
 <html>
     <head><title>Browse Adopters</title></head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
 <!-- NAV BAR -->
 <nav>
 	<div class="logo">
@@ -9,28 +9,28 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
         </li>
         <li>
-            <a class="active" href="adopters.html">Adopters</a>
+            <a class="active" href="/adopters">Adopters</a>
         </li>
         <li>
-            <a href="counselors.html">Counselors</a>
+            <a href="/counselors">Counselors</a>
         </li>
         <li>
-            <a href="dogs.html">Dogs</a>
+            <a href="/dogs">Dogs</a>
         </li>
         <li>
-            <a href="add_dog.html">Add Dog</a>
+            <a href="/add_dog">Add Dog</a>
         </li>
         <li>
-            <a  href="applications.html">Applications</a>
+            <a  href="/applications">Applications</a>
         </li>
         <li>
-            <a href="add_application.html">New Application</a>
+            <a href="/add_application">New Application</a>
         </li>
         <li>
-            <a href="adoption_details.html">Adoption Details</a>
+            <a href="/adoption_details">Adoption Details</a>
         </li>
     </ul>
 </nav>

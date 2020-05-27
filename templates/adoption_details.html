@@ -3,8 +3,8 @@
 <head>
 
    <!-- metadate goes in head -->
-   <link rel="stylesheet" type="text/css" href="style.css">
-
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   
    <title>Adoption Details</title>
 </head>
 <body>
@@ -16,28 +16,28 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
         </li>
         <li>
-            <a href="adopters.html">Adopters</a>
+            <a href="/adopters">Adopters</a>
         </li>
         <li>
-            <a href="counselors.html">Counselors</a>
+            <a href="/counselors">Counselors</a>
         </li>
         <li>
-            <a href="dogs.html">Dogs</a>
+            <a href="/dogs">Dogs</a>
         </li>
         <li>
-            <a href="add_dog.html">Add Dog</a>
+            <a href="/add_dog">Add Dog</a>
         </li>
         <li>
-            <a href="applications.html">Applications</a>
+            <a href="/applications">Applications</a>
         </li>
         <li>
-            <a href="add_application.html">New Application</a>
+            <a href="/add_application">New Application</a>
         </li>
         <li>
-            <a class="active" href="adoption_details.html">Adoption Details</a>
+            <a class="active" href="/adoption_details">Adoption Details</a>
         </li>
     </ul>
 </nav>
@@ -87,7 +87,7 @@
 </form>
 <br>
 
-<form>
+<form id="addadoptiondetail" action="/adoption_details" method="post">
     <fieldset>
       <legend>Add a pet to an application</legend>
 
@@ -111,45 +111,26 @@
  <thead>
   <tr>
    <th> App ID
-   <th> Date
-   <th> Adopter First Name
-   <th> Adopter Last Name
-   <th> Counselor First Name
-   <th> Counselor Last Name
-   <th> Pet ID
+   <th> Adopter's First Name
+   <th> Adopter's Last Name
+   <th> Counselor ID
+   <th> Dog's Name
    <th> Status
    <th> &nbsp;
  <tbody>
+    {% for r in rows %}
   <tr>
-   <td> 100 
-   <td> 06-13-1987
-   <td> Ryan
-   <td> Orange
-   <td> Cynthia
-   <td> Green
-   <td> 909
-   <td> Pending
-   <td> <button>Delete</button><button>Update</button>
-  <tr>
-   <td> 101 
-   <td> 01-13-1990
-   <td> Anna
-   <td> Duke
-   <td> Adam
-   <td> Apple
-   <td> 901
-   <td> Pending
-   <td> <button>Delete</button><button>Update</button>
-   <tr>
-   <td> 100 
-   <td> 06-13-1987
-   <td> Ryan
-   <td> Orange
-   <td> Cynthia
-   <td> Green
-   <td> 920
-   <td> Pending
-   <td> <button>Delete</button><button>Update</button>
+    <td> {{ r[0] }}</td>
+    <td> {{ r[1] }}</td>
+    <td> {{ r[2] }}</td>
+    <td> {{ r[3] }}</td>
+    <td> {{ r[4] }}</td>
+    <td> {{ r[5] }}</td>
+    <td> {{ r[6] }}</td>
+    <td> <input type='button' name='View' value='View' onclick="window.location = '/delete_people/{{r[4]}}'"> </td>
+  </tr>
+  {% endfor %}
+  </tbody>
 </table>
 
 </body>

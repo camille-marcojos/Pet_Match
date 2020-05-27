@@ -3,7 +3,7 @@
 <head>
 
 <!-- metadata goes in head -->
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 <title>Add Application</title>
 </head>
@@ -16,28 +16,28 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
         </li>
         <li>
-            <a href="adopters.html">Adopters</a>
+            <a href="/adopters">Adopters</a>
         </li>
         <li>
-            <a href="counselors.html">Counselors</a>
+            <a href="/counselors">Counselors</a>
         </li>
         <li>
-            <a href="dogs.html">Dogs</a>
+            <a href="/dogs">Dogs</a>
         </li>
         <li>
-            <a href="add_dog.html">Add Dog</a>
+            <a href="/add_dog">Add Dog</a>
         </li>
         <li>
-            <a href="applications.html">Applications</a>
+            <a href="/applications">Applications</a>
         </li>
         <li>
-            <a class="active" href="add_application.html">New Application</a>
+            <a class="active" href="/add_application">New Application</a>
         </li>
         <li>
-            <a href="adoption_details.html">Adoption Details</a>
+            <a href="/adoption_details">Adoption Details</a>
         </li>
     </ul>
 </nav>
@@ -48,30 +48,60 @@
 <p>This page contains the form to submit an adoption application for a dog.</p>
 
 
-<form>
+<form id="addapplication" action="/add_application" method="post">
     <fieldset>
         <legend>Please fill out the following information:</legend>
         <label for="date">Date:</label>
         <input for="date" type="date" name="appDate">
 
         <label for="adopterID">Adopter ID:</label>
-        <input name="adopterID" id="adopterID" type="text">
+        <select name="adopterID">
+            <option value="">Select Adopter ID</option>
+            {% for a in adopters %}
+            <option value="{{ a[0] }}">{{ a[1] }}</option>
+            {% endfor %}
+        </select><br> 
 
         <label for="shelterID">Shelter ID:</label>
-        <input name="shelterID" id="shelterID" type="text">
+        <select name="shelterID">
+            <option value="">Select Shelter</option>
+            {% for s in shelters %}
+            <option value="{{ s[0] }}">{{ s[1] }}</option>
+            {% endfor %}
+        </select><br>    
 
         <label for="counselorID">Counselor ID:</label>
-        <input name="counselorID" id="counselorID" type="text">
+        <select name="counselorID">
+            <option value="">Select Counselor ID</option>
+            {% for c in counselors %}
+            <option value="{{ c[0] }}">{{ c[1] }}</option>
+            {% endfor %}
+        </select><br>
 
         <label for="petID1">Pet ID:</label>
-        <input name="petID1" id="petID1" type="text">
-        <br>
+        <select name="petID1">
+            <option value="">Select Dog ID</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[1] }}</option>
+            {% endfor %}
+        </select><br>
+
         <label for="petID2">Pet ID:</label>
-        <input name="petID2" id="petID2" type="text">
-        <br>
+        <select name="petID2">
+            <option value="NULL">Select Dog ID</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[1] }}</option>
+            {% endfor %}
+        </select><br>
+
         <label for="petID3">Pet ID:</label>
-        <input name="petID3" id="petID3" type="text">
-        <br>
+        <select name="petID3">
+            <option value="NULL">Select Dog ID</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[1] }}</option>
+            {% endfor %}
+        </select><br>
+
         Meet & Greet:
         <select name="meetGreet">
         <option>N/A</option>
