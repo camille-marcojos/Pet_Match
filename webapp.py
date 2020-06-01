@@ -116,7 +116,7 @@ def add_application():
 def browse_dogs():
     print("Fetching and rendering dogs web page")
     db_connection = connect_to_database()
-    query = "SELECT * from Dogs;"
+    query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('dogs.html', rows=result)
