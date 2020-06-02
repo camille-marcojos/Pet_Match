@@ -73,6 +73,15 @@ def browse_adoption_details():
         execute_query(db_connection, query, data)
         return redirect('/adoption_details')
 
+@webapp.route('/delete_adoption/<int:app_id>,<int:pet_id>')
+def delete_adoptions(app_id, pet_id):
+    db_connection = connect_to_database()
+    data = (app_id, pet_id)
+
+    query = "DELETE FROM AdoptionDetails WHERE app_num = %s AND petID = :%s"
+    result = execute_query(db_connection, query, data)
+
+    return redirect('/adoption_details')
 
 @webapp.route('/add_application', methods=['POST','GET'])
 def add_application():
