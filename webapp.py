@@ -203,6 +203,7 @@ def update_application(id):
 #############################SHELBIS PAGES###############################
 
 
+### DOG PAGES ### 
 @webapp.route('/dogs', methods=['POST','GET'])
 def browse_dogs():
 
@@ -233,8 +234,6 @@ def browse_dogs():
             result = execute_query(db_connection, query).fetchall()
     
         return render_template('dogs.html', rows=result)
-
-
 
 @webapp.route('/add_dog', methods=['POST','GET'])
 def add_new_dog():
@@ -308,9 +307,10 @@ def delete_dog(id):
     query = "DELETE FROM Dogs WHERE petID = %s"
     data = (id,)
 
-    result = execute_query(db_connection, query, data)
+    execute_query(db_connection, query, data)
     return redirect('/dogs')
 
+### ADOPTERS PAGES ###
 @webapp.route('/adopters', methods=['POST','GET'])
 def adopters():
     
@@ -381,5 +381,5 @@ def delete_adopter(id):
     query = "DELETE FROM Adopters WHERE adopterID = %s"
     data = (id,)
 
-    result = execute_query(db_connection, query, data)
+    execute_query(db_connection, query, data)
     return redirect('/adopters')
