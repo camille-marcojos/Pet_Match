@@ -111,15 +111,33 @@ def add_application():
         return redirect('/applications')
 
 
-@webapp.route('/dogs')
+@webapp.route('/dogs', methods=['POST', 'GET'])
 #the name of this function is just a cosmetic thing
 def browse_dogs():
     print("Fetching and rendering dogs web page")
     db_connection = connect_to_database()
-    query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID;"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('dogs.html', rows=result)
+    if request.method == 'GET':
+        breeds_query = 'SELECT DISTINCT breed FROM Dogs;'
+        brreds = execute_query(db_connection,query).fetchall()
+
+        query = 'SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID'
+        result = execute_query(db_connection, query).fetchall()
+        
+        return render_template('dogs.html', rows=result, breeds=breeds)
+    elif request.method == 'POST':
+        status = request.form['dogstatus']
+
+        if status != "any":
+            query = 'SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID WHERE adoption_status='%s''
+            data = (status)
+            result = execute_query(db_connection, query).fetchall()
+            return render_template('dogs.html', rows=result)
+        else:
+            
+        query = 'SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID'
+        result = execute_query(db_connection, query).fetchall()
+        
+        return render_template('dogs.html', rows=result, breeds=breeds)
 
 @webapp.route('/adopters', methods=['POST','GET'])
 def adopters():
@@ -146,6 +164,54 @@ def adopters():
         data = (first_name, last_name, phone, email, street, city, state, zipcode)
         execute_query(db_connection, query, data)
         return redirect('/adopters')
+
+@webapp.route('/update_adopter/<int:id>', methods=['POST','GET'])
+def update_adopter(id):
+    print('In the function')
+    db_connection = connect_to_database()
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        adopter_query = 'SELECT * FROM Adopters WHERE adopterID = %s'  % (id)
+        adopter_result = execute_query(db_connection, adopter_query).fetchone()
+
+        if adopter_result == None:
+            return "No such person found!"
+
+        table_query = 'SELECT * FROM Adopters'
+        table_results = execute_query(db_connection, table_query).fetchall()
+
+        print('Returning')
+        return render_template('update_adopter.html', adopter = adopter_result, rows = table_results)
+    elif request.method == 'POST':
+        print('The POST request')
+        adopterID =request.form['adopterID']
+        first_name = request.form['fname']
+        last_name = request.form['lname']
+        phone = request.form['phone']
+        email = request.form['email']
+        street = request.form['street']
+        city = request.form['city']
+        state = request.form['state']
+        zipcode = request.form['zipcode']
+    
+        query = 'UPDATE Adopters SET first_name=%s, last_name=%s, phone=%s, email=%s, street=%s, city=%s, state=%s, zip=%s WHERE adopterID=%s'
+        data = (first_name, last_name, phone, email, street, city, state, zipcode, adopterID)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/adopters')
+
+@webapp.route('/delete_adopter/<int:id>')
+def delete_adopter(id):
+    '''deletes a dog with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM Adopters WHERE adopterID = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return redirect('/adopters')
+
 
 @webapp.route('/add_dog', methods=['POST','GET'])
 def add_new_dog():
@@ -174,3 +240,50 @@ def add_new_dog():
         data = (shelterID, name, birthday, gender, breed, size, status, energy, coat, color, dogsOK, catsOK, kidsOK)
         execute_query(db_connection, query, data)
         return redirect('/dogs')
+
+@webapp.route('/update_dog/<int:id>', methods=['POST','GET'])
+def update_dog(id):
+    print('In the function')
+    db_connection = connect_to_database()
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        dog_query = 'SELECT * from Dogs WHERE petID = %s'  % (id)
+        dog_result = execute_query(db_connection, dog_query).fetchone()
+
+        if dog_result == None:
+            return "No such dog found!"
+
+        print('Returning')
+        return render_template('update_dog.html', dog = dog_result)
+    elif request.method == 'POST':
+        print('The POST request')
+        petID = request.form['petID']
+        name = request.form['dogname']
+        birthday = request.form['birthday']
+        breed = request.form['breed']
+        gender = request.form['doggender']
+        size = request.form['dogsize']
+        status = request.form['dogstatus']
+        energy = request.form['energy']
+        coat = request.form['coat']
+        color = request.form['color']
+        dogsOK = request.form['dogsOK']
+        catsOK = request.form['catsOK']
+        kidsOK = request.form['kidsOK']
+    
+        query = "UPDATE Dogs SET name=%s, birthday=%s, gender=%s, breed=%s, size=%s, adoption_status=%s, energy_level=%s, coat_type=%s, color=%s, dogs_ok=%s, cats_ok=%s, kids_ok=%s WHERE petID=%s"
+        data = (name, birthday, gender, breed, size, status, energy, coat, color, dogsOK, catsOK, kidsOK, petID)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+        return redirect('/dogs')
+
+@webapp.route('/delete_dog/<int:id>')
+def delete_dog(id):
+    '''deletes a dog with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM Dogs WHERE petID = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return redirect('/dogs')
