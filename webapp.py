@@ -47,7 +47,7 @@ def browse_adoption_details():
     db_connection = connect_to_database()
     if request.method == 'GET':
         print("Fetching and rendering adoption details web page")
-        query = "SELECT AdoptionDetails.app_num, Adopters.first_name, Adopters.last_name, Applications.counselorID, Dogs.name AS Dog_Name, app_status from AdoptionDetails INNER JOIN Applications ON AdoptionDetails.app_num = Applications.app_num INNER JOIN Adopters ON Applications.adopterID = Adopters.adopterID INNER JOIN Dogs ON AdoptionDetails.petID = Dogs.petID;"
+        query = "SELECT AdoptionDetails.app_num, Adopters.first_name, Adopters.last_name, Applications.counselorID, Dogs.name AS Dog_Name, app_status, AdoptionDetails.petID from AdoptionDetails INNER JOIN Applications ON AdoptionDetails.app_num = Applications.app_num INNER JOIN Adopters ON Applications.adopterID = Adopters.adopterID INNER JOIN Dogs ON AdoptionDetails.petID = Dogs.petID;"
         result = execute_query(db_connection, query).fetchall()
         print(result)
 
@@ -78,8 +78,8 @@ def delete_adoptions(app_id, pet_id):
     db_connection = connect_to_database()
     data = (app_id, pet_id)
 
-    query = "DELETE FROM AdoptionDetails WHERE app_num = %s AND petID = :%s"
-    result = execute_query(db_connection, query, data)
+    query = "DELETE FROM AdoptionDetails WHERE app_num = %s AND petID = %s"
+    execute_query(db_connection, query, data)
 
     return redirect('/adoption_details')
 
