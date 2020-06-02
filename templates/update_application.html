@@ -43,7 +43,8 @@
         <select name="shelterID">
         {% for s in shelters %}
             {{ s[0] }}
-            {% if s[0] == app[2] %}
+            {{ app[1] }}
+            {% if s[0] == app[1] %}
                 <option selected value="{{ s[0] }}">{{ s[1] }}</option>
             {% else %}
                 <option value="{{ s[0] }}">{{ s[1] }}</option>
@@ -55,7 +56,8 @@
         <select name="counselorID">
         {% for c in counselors %}
             {{ c[0] }}
-            {% if c[0] == app[3] %}
+            {{ app[2] }}
+            {% if c[0] == app[2] %}
                 <option selected value="{{ c[0] }}">{{ c[2] }} {{ c[3] }}</option>
             {% else %}
                 <option value="{{ c[0] }}">{{ c[2] }} {{ c[3] }}</option>
@@ -67,7 +69,8 @@
         <select name="petID1">
         {% for p in pets %}
             {{ p[0] }}
-            {% if p[0] == app[5] %}
+            {{ app[4] }}
+            {% if p[0] == app[4] %}
                 <option selected value="{{ p[0] }}">{{ p[2] }}</option>
             {% else %}
                 <option value ="{{ p[0] }}">{{ p[2]}}</option>
@@ -79,7 +82,8 @@
         <select name="petID2">
         {% for p in pets %}
             {{ p[0] }}
-            {% if p[0] == app[6] %}
+            {{ app[5] }}
+            {% if p[0] == app[5] %}
                 <option selected value="{{ p[0] }}">{{ p[2] }}</option>
             {% else %}
                 <option value ="{{ p[0] }}">{{ p[2]}}</option>
@@ -91,7 +95,8 @@
         <select name="petID3">
         {% for p in pets %}
             {{ p[0] }}
-            {% if p[0] == app[7] %}
+            {{ app[6] }}
+            {% if p[0] == app[6] %}
                 <option selected value="{{ p[0] }}">{{ p[2] }}</option>
             {% else %}
                 <option value ="{{ p[0] }}">{{ p[2] }}</option>
@@ -101,6 +106,27 @@
     
         <label for="meetGreet">Meet & Greet:</label>
         <select name="meetGreet">
-        <option>{% if app[8] == 'N/A' %} selected {% endif %} N/A</option>
-        </fieldset>
+        <option>{% if app[7] == 'N/A' %} selected {% endif %} N/A</option>
+        <option>{% if app[7] == 'Required' %} selected {% endif %} Required</option>
+        <option>{% if app[7] == 'Completed' %} selected {% endif %} Completed</option>
+        </select><br>
+
+        Number of Adults(18 years or older): <input type="number" name="numAdults" value="{{ app[8] }}"><br>
+        Number of Children: <input type="number" name="numChildren" value="{{ app[9] }}"><br>
+        Number of Pets: <input type="number" name="numPets" value="{{ app[10] }}"><br>
+        
+        <label for="homeType">Meet & Greet:</label>
+        <select name="homeType">
+        <option>{% if app[11] == 'Single-family home' %} selected {% endif %} Single-family home</option>
+        <option>{% if app[11] == 'Multi-family home' %} selected {% endif %} Multi-family home</option>
+        <option>{% if app[11] == 'Apartment' %} selected {% endif %} Apartment</option>
+        <option>{% if app[11] == 'Condo' %} selected {% endif %} Condo</option>
+        <option>{% if app[11] == 'Duplex' %} selected {% endif %} Duplex</option>
+        </select>
+        <label for="homeStatus">Meet & Greet:</label>
+        <select name="homeStatus">
+        <option>{% if app[12] == 'Homeowner' %} selected {% endif %} Homeowner</option>
+        <option>{% if app[12] == 'Renter' %} selected {% endif %} Renter</option>
+        <option>{% if app[12] == 'Lives with Parents' %} selected {% endif %} Lives with Parents</option>
+        </select>
 </form>
