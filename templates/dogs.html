@@ -39,11 +39,20 @@
 
 
 <h1>Dogs</h1>
-<div>
-    <button onclick="window.location.href = 'add_dog';">Add New Dog</button>
-</div>
-<div>
-    <input type="search" name="dogSearch" id="dogSearch" placeholder="Search for dog by name.."><button>Search</button><br />
+    <button onclick="window.location = '/add_dog'">Add New Dog</button>
+    <form method="POST" action="/dogs">
+        <input type="text" name="dogSearch" placeholder="dog name..">
+        <input type="submit" value="Search">
+        <br />
+        <label>Status:</label>
+        <select name="dogstatus">
+            <option value="any">Any</option>
+            <option value="Available">Available</option>
+            <option value="Pending">Pending</option>
+            <option value="Adopted">Adopted</option>
+        </select>
+        <input type="submit" value="Filter">
+    <!--
     <label>Breed:</label>
     <select id ="dogbreed">
         <option value="">Any</option>
@@ -51,9 +60,8 @@
         <option value="{{ b[0] }}">{{ b[0] }}</option>
         {% endfor %}
     </select>
-
-<!--<label>Age:</label>
-    <select name="dogage">
+    <label>Age:</label>
+    <select id="dogage">
         <option value="any">Any</option>
         <option value="puppy">Puppy</option>
         <option value="young">Young</option>
@@ -61,28 +69,21 @@
         <option value="Senior">Senior</option>
     </select>
     <label>Gender:</label>
-    <select name="doggender">
+    <select id="doggender">
         <option value="any">Any</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
     </select>
     <label>Size:</label>
-    <select name="dogsize">
+    <select id="dogsize">
         <option value="any">Any</option>
         <option value="small">Small</option>
         <option value="medium">Medium</option>
         <option value="large">Large</option>
     </select>
--->
-    <label>Status:</label>
-    <select name="dogstatus">
-        <option value="any">Any</option>
-        <option value="avaialble">Avaialble</option>
-        <option value="pending">Pending</option>
-        <option value="adopted">Adopted</option>
-    </select>
-</div>
-<div>
+    -->
+    </form>
+
 <table>
     <thead>
         <tr>
