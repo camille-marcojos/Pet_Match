@@ -54,6 +54,7 @@
         <label for="date">Date:</label>
         <input for="date" type="date" name="appDate">
 
+<<<<<<< Updated upstream
         <label for="adopterID">Adopter ID:</label>
         <select name="adopterID">
             <option value="">Select Adopter ID</option>
@@ -63,6 +64,17 @@
         </select><br> 
 
         <label for="shelterID">Shelter ID:</label>
+=======
+        <label for="adopterID">Adopter:</label>
+        <select name="adopterID">
+            <option value="">Select Adopter</option>
+            {% for a in adopters %}
+            <option value="{{ a[0] }}">{{ a[2] }} {{ a[3] }}</option>
+            {% endfor %}
+        </select><br> 
+
+        <label for="shelterID">Shelter:</label>
+>>>>>>> Stashed changes
         <select name="shelterID">
             <option value="">Select Shelter</option>
             {% for s in shelters %}
@@ -70,35 +82,61 @@
             {% endfor %}
         </select><br>    
 
+<<<<<<< Updated upstream
         <label for="counselorID">Counselor ID:</label>
         <select name="counselorID">
             <option value="">Select Counselor ID</option>
             {% for c in counselors %}
             <option value="{{ c[0] }}">{{ c[1] }}</option>
+=======
+        <label for="counselorID">Counselor:</label>
+        <select name="counselorID">
+            <option value="">Select Counselor</option>
+            {% for c in counselors %}
+            <option value="{{ c[0] }}">{{ c[2] }} {{ c[3] }}</option>
+>>>>>>> Stashed changes
             {% endfor %}
         </select><br>
 
         <label for="petID1">Pet ID:</label>
         <select name="petID1">
+<<<<<<< Updated upstream
             <option value="">Select Dog ID</option>
             {% for p in pets %}
             <option value="{{ p[0] }}">{{ p[1] }}</option>
+=======
+            <option value="">Select Dog</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[2] }}</option>
+>>>>>>> Stashed changes
             {% endfor %}
         </select><br>
 
         <label for="petID2">Pet ID:</label>
         <select name="petID2">
+<<<<<<< Updated upstream
             <option value="NULL">Select Dog ID</option>
             {% for p in pets %}
             <option value="{{ p[0] }}">{{ p[1] }}</option>
+=======
+            <option value="">Select Dog</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[2] }}</option>
+>>>>>>> Stashed changes
             {% endfor %}
         </select><br>
 
         <label for="petID3">Pet ID:</label>
         <select name="petID3">
+<<<<<<< Updated upstream
             <option value="NULL">Select Dog ID</option>
             {% for p in pets %}
             <option value="{{ p[0] }}">{{ p[1] }}</option>
+=======
+            <option value="">Select Dog</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[2] }}</option>
+>>>>>>> Stashed changes
             {% endfor %}
         </select><br>
 
@@ -122,6 +160,7 @@
     <label for="numAnimals">Number of Pets:</label>
     <input name="numAnimals" id="numAnimals" type="text">
     <br>
+    <label for="homeType">Home Type:</label>
     <label>
         <input type="radio" name="homeType" value="Single-family home" />Single-family home</label>
     <label>
@@ -134,6 +173,7 @@
     <label>
         <input type="radio" name="homeType" value="Condo" />Duplex</label>
     <br>
+    <label for="homeStatus">Home Status:</label>
     <label>
         <input type="radio" name="homeStatus" value="Homeowner" />Homeowner</label>
 

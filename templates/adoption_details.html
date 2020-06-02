@@ -92,10 +92,20 @@
       <legend>Add a pet to an application</legend>
 
         <label for="appID">App ID:</label>
-        <input name="appID" id="appID" type="text">
+        <select name="appID">
+            <option value="">Select App ID</option>
+            {% for a in apps %}
+            <option value="{{ a[0] }}">{{ a[1] }}</option>
+            {% endfor %}
+        </select><br> 
 
-        <label for="petID">Pet ID:</label>
-        <input name="petID" id="petID" type="text">
+        <label for="petID">Pet Name:</label>
+        <select name="petID">
+            <option value="">Select Pet</option>
+            {% for p in pets %}
+            <option value="{{ p[0] }}">{{ p[1] }}</option>
+            {% endfor %}
+        </select><br>
 
         Status:
         <select name="appStatus">
