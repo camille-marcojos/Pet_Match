@@ -53,6 +53,7 @@
         <legend>Please fill out the following information:</legend>
         <label for="date">Date:</label>
         <input for="date" type="date" name="appDate">
+        <br>
 
         <label for="adopterID">Adopter:</label>
         <select name="adopterID">
@@ -60,7 +61,9 @@
             {% for a in adopters %}
             <option value="{{ a[0] }}">{{ a[2] }} {{ a[3] }}</option>
             {% endfor %}
-        </select><br> 
+        </select> 
+        <input type='button' name='addadopter' value='Add an Adopter' onclick="window.location = '/adopters'">
+        <br> 
 
         <label for="shelterID">Shelter:</label>
         <select name="shelterID">
