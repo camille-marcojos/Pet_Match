@@ -45,7 +45,7 @@
 
 <h1>Applications</h1>
 <p>This page will show a limited version of the applications database. The view button will allow users to view the full table with all the data from the application. On the view page, users will be able to update and delete the application.</p>
-<form>
+<!-- WILL UPDATE SEARCHES AT A LATER TIME <form>
    <fieldset>
       <legend>Search for an application by:</legend>
       <label for="appID">App ID:</label>
@@ -61,7 +61,7 @@
         <input name="lname" id="lname" type="text">
         <button>Search</button>
    </fieldset>
-</form>
+</form> -->
 <br>
 <button onclick="window.location.href = '/add_application';">Add New Application</button>
 <table>
@@ -101,7 +101,7 @@
     <td> {{ r[12] }}</td>
     <td> {{ r[13] }}</td>
     <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_application/{{r[0]}}'"> </td>
-    <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_application/{{r[0]}}'"> </td>
+    <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_application/{{r[0]}}'"> </td> 
    </tr>
    {% endfor %}
 </table>
