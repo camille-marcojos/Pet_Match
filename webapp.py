@@ -14,10 +14,14 @@ def browse_counselors():
     print("Fetching and rendering counselors web page")
     db_connection = connect_to_database()
     if request.method == 'GET':
-        query = "SELECT * from Counselors;"
+        query = "SELECT `counselorID`, `first_name`, `last_name`, `name` FROM `Counselors` INNER JOIN Shelters ON Counselors.shelterID = Shelters.shelterID ORDER BY `first_name`"
         result = execute_query(db_connection, query).fetchall()
         print(result)
-        return render_template('counselors.html', rows=result)
+
+        query = 'SELECT shelterID, name from Shelters'
+        shelters = execute_query(db_connection,query).fetchall()
+        print(shelters)
+        return render_template('counselors.html', rows=result, shelters=shelters)
     elif request.method == 'POST':
         print("Adding an counselor")
         fname = request.form['firstName'] 
@@ -36,7 +40,7 @@ def browse_counselors():
 def browse_applications():
     print("Fetching and rendering applications web page")
     db_connection = connect_to_database()
-    query = "SELECT app_num, app_date, Shelters.name, concat(Adopters.first_name,' ', Adopters.last_name), concat(Counselors.first_name,' ', Counselors.last_name), p1.name, p2.name, p3.name, meet_greet, num_adults, num_children, num_pets, home_type, home_status FROM Applications AS app INNER JOIN Adopters ON app.adopterID = Adopters.adopterID INNER JOIN Shelters ON app.shelterID = app.shelterID INNER JOIN Counselors ON app.counselorID = Counselors.counselorID LEFT JOIN Dogs AS p1 ON app.petID1 = p1.petID LEFT JOIN Dogs AS p2 ON app.petID2 = p2.petID LEFT JOIN Dogs AS p3 ON app.petID3 = p3.petID;"
+    query = "SELECT app_num, app_date, Shelters.name, concat(Adopters.first_name,' ', Adopters.last_name), concat(Counselors.first_name,' ', Counselors.last_name), p1.name, p2.name, p3.name, meet_greet, num_adults, num_children, num_pets, home_type, home_status FROM Applications AS app INNER JOIN Adopters ON app.adopterID = Adopters.adopterID INNER JOIN Shelters ON app.shelterID = app.shelterID LEFT JOIN Counselors ON app.counselorID = Counselors.counselorID LEFT JOIN Dogs AS p1 ON app.petID1 = p1.petID LEFT JOIN Dogs AS p2 ON app.petID2 = p2.petID LEFT JOIN Dogs AS p3 ON app.petID3 = p3.petID ORDER BY app_num;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('applications.html', rows=result)
@@ -51,7 +55,7 @@ def browse_adoption_details():
         result = execute_query(db_connection, query).fetchall()
         print(result)
 
-        query = 'SELECT petID, name from Dogs'
+        query = 'SELECT petID, name from Dogs where adoption_status != "Adopted"'
         pets = execute_query(db_connection,query).fetchall()
         print(pets)
 
@@ -81,6 +85,9 @@ def delete_adoptions(app_id, pet_id):
     query = "DELETE FROM AdoptionDetails WHERE app_num = %s AND petID = %s"
     execute_query(db_connection, query, data)
 
+    query = "UPDATE Applications SET app_num = %s AND petID1 = %s OR petID2 = %s OR petID3 = %s"
+    data = (app_id, pet_id, pet_id, pet_id)
+    execute_query(db_connection, query, data)
     return redirect('/adoption_details')
 
 @webapp.route('/add_application', methods=['POST','GET'])
@@ -99,7 +106,7 @@ def add_application():
         counselors = execute_query(db_connection,query).fetchall()
         print(counselors)
 
-        query = 'SELECT petID, petID, name from Dogs'
+        query = 'SELECT petID, petID, name from Dogs where adoption_status!="Adopted"'
         pets = execute_query(db_connection,query).fetchall()
         print(pets)
         
@@ -126,13 +133,68 @@ def add_application():
         home_status = request.form['homeStatus'] 
         home_type = request.form['homeType'] 
 
-        query = 'INSERT INTO Applications (app_date, shelterID, counselorID, adopterID, petID1, petID2, petID3, meet_greet, num_adults, num_children, num_pets, home_type, home_status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'    
-        data = (date, shelterID, counselorID, adopterID, petID1, petID2, petID3, meet_greet, num_adults, num_kids, num_pets, home_type, home_status)
         db_connection = connect_to_database()
-        execute_query(db_connection, query, data)
-  
+        query = 'INSERT INTO Applications (app_date, shelterID, counselorID, adopterID, petID1, petID2, petID3, meet_greet, num_adults, num_children, num_pets, home_type, home_status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+        data = (date, shelterID, counselorID, adopterID, petID1, petID2, petID3, meet_greet, num_adults, num_kids, num_pets, home_type, home_status)
+        result=execute_query(db_connection, query, data)
+        print(result.lastrowid)
+
+        if petID1 != None:
+            query2 = 'INSERT INTO AdoptionDetails (app_num ,petID, app_status) VALUES (%s,%s,%s)'
+            data2 = (result.lastrowid, petID1, 'Pending')
+            execute_query(db_connection,query2,data2)
+
+        if petID2 != None:
+            query3 = 'INSERT INTO AdoptionDetails (app_num ,petID, app_status) VALUES (%s,%s,%s)'
+            data3 = (result.lastrowid, petID2, 'Pending')
+            execute_query(db_connection,query3,data3)
+
+        if petID3 != None:
+            query4 = 'INSERT INTO AdoptionDetails (app_num ,petID, app_status) VALUES (%s,%s,%s)'
+            data4 = (result.lastrowid, petID3, 'Pending')
+            execute_query(db_connection,query4,data4)
+
         return redirect('/applications')
 
+@webapp.route('/update_adoption/<int:app_id>,<int:pet_id>', methods=['POST','GET'])
+def update_adoption_details(app_id, pet_id):
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        print("Fetching and rendering adoption details web page")
+        query = 'SELECT AdoptionDetails.app_num, Adopters.first_name, Adopters.last_name, Applications.counselorID, Dogs.name, app_status, AdoptionDetails.petID from AdoptionDetails INNER JOIN Applications ON AdoptionDetails.app_num = Applications.app_num INNER JOIN Adopters ON Applications.adopterID = Adopters.adopterID INNER JOIN Dogs ON AdoptionDetails.petID = Dogs.petID WHERE AdoptionDetails.app_num = %s AND AdoptionDetails.petID = %s'
+        data = (app_id, pet_id)
+        adoption_result = execute_query(db_connection, query, data).fetchone()
+        print(adoption_result)
+        return render_template('update_adoption.html', adoption=adoption_result)
+    elif request.method == 'POST':
+        print('The POST Request')
+        app_num = request.form['app_num']
+        petID = request.form['petID']
+        status = request.form['status']
+
+        query = "UPDATE AdoptionDetails SET app_status=%s WHERE app_num=%s AND petID=%s"
+        data=(status,app_num,petID)
+        result = execute_query(db_connection,query,data)
+        print(str(result.rowcount) + " row(s) updated")
+
+    if status == 'Pending':
+        query = "UPDATE Dogs SET adoption_status=%s WHERE petID=%s"
+        data=('Pending',petID)
+        result = execute_query(db_connection,query,data)
+        print(str(result.rowcount) + " row(s) updated")
+    elif status == 'Approved':
+        query = "UPDATE Dogs SET adoption_status=%s WHERE petID=%s"
+        data=('Adopted',petID)
+        result = execute_query(db_connection,query,data)
+        print(str(result.rowcount) + " row(s) updated")
+    elif status == 'Denied':
+        query = "UPDATE Dogs SET adoption_status=%s WHERE petID=%s"
+        data=('Available',petID)
+        result = execute_query(db_connection,query,data)
+        print(str(result.rowcount) + " row(s) updated")
+
+    return redirect('/adoption_details')
 
 @webapp.route('/update_counselor/<int:id>', methods=['POST','GET'])
 def update_counselor(id):
@@ -171,15 +233,25 @@ def delete_people(id):
     db_connection = connect_to_database()
     data = (id,)
 
-    query = "DELETE FROM Applications WHERE counselorID = %s"
+    query = "DELETE FROM Counselors WHERE counselorID = %s"
     result = execute_query(db_connection, query, data)
-
-    query2 = "DELETE FROM Counselors WHERE counselorID = %s"
-    result = execute_query(db_connection, query2, data)
 
     print(str(result.rowcount) + " row deleted")
 
     return redirect('/counselors')
+
+@webapp.route('/delete_application/<int:id>')
+def delete_app(id):
+    #deletes a person with the given id
+    db_connection = connect_to_database()
+    data = (id,)
+
+    query = "DELETE FROM Applications WHERE app_num = %s"
+    result = execute_query(db_connection, query, data)
+
+    print(str(result.rowcount) + " row deleted")
+
+    return redirect('/applications')
 
 
 @webapp.route('/update_application/<int:id>', methods=['POST','GET'])
@@ -189,6 +261,9 @@ def update_application(id):
     if request.method == 'GET':
         app_query = 'SELECT * FROM Applications where app_num = %s' % (id)
         app_result = execute_query(db_connection, app_query).fetchone()
+
+        if app_result == None:
+            return "No such application found!"
 
         query = 'SELECT shelterID, name from Shelters'
         shelters = execute_query(db_connection,query).fetchall()
@@ -202,13 +277,46 @@ def update_application(id):
         counselors = execute_query(db_connection,query).fetchall()
         print(counselors)
 
-        query = 'SELECT petID, petID, name from Dogs'
+        query = 'SELECT petID, petID, name from Dogs where adoption_status!="Adopted"'
         pets = execute_query(db_connection,query).fetchall()
         print(pets)
+        return render_template('update_application.html', shelters=shelters, app=app_result, adopters = adopters, counselors = counselors, pets = pets)
+    elif request.method == 'POST':
+        print('The POST request')
+        #grabbing info from the form
+        app_id = request.form['app_id']
+        adopter_id = request.form['adopter_id']
+        fname = request.form['fname']
+        lname = request.form['lname']
+        shelterID = request.form['shelterID']
+        counselorID = request.form['counselorID']
+        petID1 = request.form['petID1']
+        if petID1 == "":
+            petID1 = None 
+        petID2 = request.form['petID2']
+        if petID2 == "":
+            petID2 = None 
+        petID3 = request.form['petID3']
+        if petID3 == "":
+            petID3 = None 
+        meetGreet = request.form['meetGreet']
+        numAdults = request.form['numAdults']
+        numChildren = request.form['numChildren']
+        numPets = request.form['numPets']
+        homeType = request.form['homeType']
+        homeStatus = request.form['homeStatus']
 
-    return render_template('update_application.html', shelters=shelters, app=app_query, adopters = adopters, counselors = counselors, pets = pets)
+        query = "UPDATE Applications SET shelterID= %s, counselorID= %s, petID1 = %s, petID2 = %s, petID3 = %s, meet_greet = %s, num_adults = %s, num_children = %s, num_pets = %s, home_type = %s, home_status = %s WHERE app_num = %s"
+        data = (shelterID, counselorID, petID1, petID2, petID3, meetGreet, numAdults, numChildren, numPets, homeType, homeStatus, app_id)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+        
+        query2 = "UPDATE Adopters SET first_name= %s, last_name= %s WHERE adopterID = %s"
+        data2 = (fname, lname, adopter_id)
+        result2 = execute_query(db_connection, query2, data2)
+        print(str(result2.rowcount) + " row(s) updated")
 
-
+        return redirect('/applications')
 #############################SHELBIS PAGES###############################
 
 
@@ -228,15 +336,15 @@ def browse_dogs():
         return render_template('dogs.html', rows=result)
     elif request.method == 'POST':
         status = request.form['dogstatus']
-        search = request.form['dogSearch']
+        search = '%' + request.form['dogSearch'] + '%'
 
         if status != "any":
             query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID WHERE adoption_status=%s"
             data = (status,)
             result = execute_query(db_connection, query, data).fetchall()
-        elif search != "":
+        elif search != None:
             query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID WHERE Dogs.name LIKE %s"
-            data = (search)
+            data = (search,)
             result = execute_query(db_connection, query, data).fetchall()
         else:
             query = 'SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID'
