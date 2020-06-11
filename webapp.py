@@ -317,6 +317,8 @@ def update_application(id):
         print(str(result2.rowcount) + " row(s) updated")
 
         return redirect('/applications')
+
+        
 #############################SHELBIS PAGES###############################
 
 
@@ -337,12 +339,13 @@ def browse_dogs():
     elif request.method == 'POST':
         status = request.form['dogstatus']
         search = '%' + request.form['dogSearch'] + '%'
+        dogSearch = request.form['dogSearch']
 
         if status != "any":
             query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID WHERE adoption_status=%s"
             data = (status,)
             result = execute_query(db_connection, query, data).fetchall()
-        elif search != None:
+        elif dogSearch != None:
             query = "SELECT petID, Shelters.name, Dogs.name, birthday, gender, breed, size, adoption_status, energy_level, coat_type, color, dogs_ok, cats_ok, kids_ok FROM Dogs INNER JOIN Shelters ON Dogs.shelterID = Shelters.shelterID WHERE Dogs.name LIKE %s"
             data = (search,)
             result = execute_query(db_connection, query, data).fetchall()
@@ -439,20 +442,30 @@ def adopters():
 
         return render_template('adopters.html', rows=result)
     elif request.method == 'POST':
-        print("Add new adopter!")
-        first_name = request.form['fname']
-        last_name = request.form['lname']
-        phone = request.form['phone']
-        email = request.form['email']
-        street = request.form['street']
-        city = request.form['city']
-        state = request.form['state']
-        zipcode = request.form['zipcode']
-    
-        query = 'INSERT INTO Adopters (first_name, last_name, phone, email, street, city, state, zip) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
-        data = (first_name, last_name, phone, email, street, city, state, zipcode)
-        execute_query(db_connection, query, data)
-        return redirect('/adopters')
+        search = '%' + request.form['adopterSearch'] + '%'
+        button = request.form['submit_button']
+        #adopterSearch = request.form['adopterSearch']
+        if button == 'Search':
+            query = "SELECT * FROM Adopters WHERE first_name LIKE %s OR last_name LIKE %s OR phone LIKE %s OR email LIKE %s OR street LIKE %s OR city LIKE %s OR state LIKE %s OR zip LIKE %s;"
+            data = (search, search, search, search, search, search, search, search)
+            result = execute_query(db_connection, query, data).fetchall()
+            print(result)
+            return render_template('adopters.html', rows=result)
+        elif button == 'Submit':       
+            print("Add new adopter!")
+            first_name = request.form['fname']
+            last_name = request.form['lname']
+            phone = request.form['phone']
+            email = request.form['email']
+            street = request.form['street']
+            city = request.form['city']
+            state = request.form['state']
+            zipcode = request.form['zipcode']
+        
+            query = 'INSERT INTO Adopters (first_name, last_name, phone, email, street, city, state, zip) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
+            data = (first_name, last_name, phone, email, street, city, state, zipcode)
+            execute_query(db_connection, query, data)
+            return redirect('/adopters')
 
 @webapp.route('/update_adopter/<int:id>', methods=['POST','GET'])
 def update_adopter(id):

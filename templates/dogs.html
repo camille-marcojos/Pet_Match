@@ -1,14 +1,15 @@
 <html>
     <head><title>Browse Dogs</title></head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 <!-- NAV BAR -->
 <nav>
-    <div class="logo">
-    </div>
+	<div class="logo">
+	</div>
     </div>
     <ul class="nav-links">
         <li>
-            <a href="/">Home</a>
+            <a href="/index">Home</a>
         </li>
         <li>
             <a href="/adopters">Adopters</a>
@@ -39,6 +40,7 @@
 
 
 <h1>Dogs</h1>
+
     <button onclick="window.location = '/add_dog'">Add New Dog</button>
     <form method="POST" action="/dogs">
         <input type="text" name="dogSearch" placeholder="dog name..">
@@ -81,8 +83,9 @@
         <option value="medium">Medium</option>
         <option value="large">Large</option>
     </select>
-    -->
-    </form>
+-->
+<!--<form method="POST" action="/dogs">-->
+</form>
 
 <table>
     <thead>

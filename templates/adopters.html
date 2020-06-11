@@ -39,7 +39,7 @@
 <h1>Adopters</h1>
 <div id="adopter_form">
     <h2>Add New Adopter:</h2><br/>
-    <form id="addadopter" action="/adopters" method="post">
+    <form id="adopter_form" action="/adopters" method="post">
         <label>First Name:</label>
         <input type="text" name="fname" id="fname">
         <br />
@@ -58,11 +58,11 @@
         <input type="state" name="state" id="state" placeholder="state">
         <input type="zip" name="zipcode" id="zipcode" placeholder="zip"> <br />
 
-        <input type="submit" value="Submit">
+        <input type="submit" name='submit_button' value="Submit">
+        <br />
+        <input type="search" name="adopterSearch" placeholder="Search for adopter..">
+        <input type ="submit" name="submit_button" value="Search"><br />
     </form>
-</div>
-<div>
-    <input type="search" id="adopterSearch" placeholder="Search for adopter.."><button>Search</button><br />
 </div>
 <div>
 <table>
