@@ -47,7 +47,7 @@
 
 <p>This page shows the status of submitted applications. Users can update the application status, and add or delete a pet from an application.</p>
 
-<form>
+<!-- WILL IMPLEMENT SEARCHES AT A LATER TIME<form>
   <fieldset>
      <legend>Search by:</legend>
      <label for="appID">App ID:</label>
@@ -84,7 +84,7 @@
        <input name="counselorID" id="counselorID" type="text">
        <button>Search</button>
   </fieldset>
-</form>
+</form> -->
 <br>
 
 <form id="addadoptiondetail" action="/adoption_details" method="post">
@@ -137,6 +137,7 @@
     <td> {{ r[4] }}</td>
     <td> {{ r[5] }}</td>
     <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_adoption/{{r[0]}},{{r[6]}}'"> </td>
+    <td> <input type='button' name='Update' value='Update Status' onclick="window.location = '/update_adoption/{{r[0]}},{{r[6]}}'"> </td>
   </tr>
   {% endfor %}
   </tbody>
