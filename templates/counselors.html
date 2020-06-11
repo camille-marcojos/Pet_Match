@@ -57,8 +57,13 @@
         <label for="lastName">Last Name:</label>
         <input name="lastName" id="lastName" type="text">
 
-        <label for="shelterID">Shelter ID:</label>
-        <input name="shelterID" id="shelterID" type="text">
+        <label for="shelterID">Shelter:</label>
+        <select name="shelterID">
+            <!--<option value="">Select Shelter</option> CAN ADD THIS FUNCTION LATER IF ADDING MORE SHELTERS -->
+            {% for s in shelters %}
+            <option value="{{ s[0] }}">{{ s[1] }}</option>
+            {% endfor %}
+        </select>
         <button>Add</button>
     </fieldset>
 </form>
@@ -69,7 +74,7 @@
    <th> Counselor ID
    <th> First Name
    <th> Last Name
-   <th> Shelter ID
+   <th> Shelter
    <th> &nbsp;
  <tbody>
     {% for r in rows %}
