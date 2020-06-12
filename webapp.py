@@ -4,61 +4,67 @@ from db_connector.db_connector import connect_to_database, execute_query
 #create the web application
 webapp = Flask(__name__)
 
+#homepage- links to all other pages on website
 @webapp.route('/')
 def index():
     return render_template('index.html')
 
+#counselors page
 @webapp.route('/counselors', methods=['POST','GET'])
-#the name of this function is just a cosmetic thing
 def browse_counselors():
     print("Fetching and rendering counselors web page")
     db_connection = connect_to_database()
+    #display all counselors
     if request.method == 'GET':
+        #query to populate counselor table
         query = "SELECT `counselorID`, `first_name`, `last_name`, `name` FROM `Counselors` INNER JOIN Shelters ON Counselors.shelterID = Shelters.shelterID ORDER BY `first_name`"
         result = execute_query(db_connection, query).fetchall()
         print(result)
-
+        #query to show dropdown shelter options in counselor form 
         query = 'SELECT shelterID, name from Shelters'
         shelters = execute_query(db_connection,query).fetchall()
         print(shelters)
         return render_template('counselors.html', rows=result, shelters=shelters)
     elif request.method == 'POST':
+        #add counselor to table 
         print("Adding an counselor")
         fname = request.form['firstName'] 
         lname = request.form['lastName'] 
         shelterID = request.form['shelterID'] 
-        
+        #query to add counselor
         query = 'INSERT INTO Counselors (first_name, last_name, shelterID) VALUES (%s,%s,%s)'    
         data = (fname, lname, shelterID)
 
         db_connection = connect_to_database()
         execute_query(db_connection, query, data)
         return redirect('/counselors')
-    
+
+#applications page
 @webapp.route('/applications')
-#the name of this function is just a cosmetic thing
 def browse_applications():
     print("Fetching and rendering applications web page")
     db_connection = connect_to_database()
+    #query to diaplay application table
     query = "SELECT app_num, app_date, Shelters.name, concat(Adopters.first_name,' ', Adopters.last_name), concat(Counselors.first_name,' ', Counselors.last_name), p1.name, p2.name, p3.name, meet_greet, num_adults, num_children, num_pets, home_type, home_status FROM Applications AS app INNER JOIN Adopters ON app.adopterID = Adopters.adopterID INNER JOIN Shelters ON app.shelterID = app.shelterID LEFT JOIN Counselors ON app.counselorID = Counselors.counselorID LEFT JOIN Dogs AS p1 ON app.petID1 = p1.petID LEFT JOIN Dogs AS p2 ON app.petID2 = p2.petID LEFT JOIN Dogs AS p3 ON app.petID3 = p3.petID ORDER BY app_num;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('applications.html', rows=result)
 
+#addoption details page (relationship between apps and dogs)
 @webapp.route('/adoption_details', methods=['POST','GET'])
-#the name of this function is just a cosmetic thing
 def browse_adoption_details():
     db_connection = connect_to_database()
     if request.method == 'GET':
         print("Fetching and rendering adoption details web page")
+        #query to display applications table
         query = "SELECT AdoptionDetails.app_num, Adopters.first_name, Adopters.last_name, Applications.counselorID, Dogs.name AS Dog_Name, app_status, AdoptionDetails.petID from AdoptionDetails INNER JOIN Applications ON AdoptionDetails.app_num = Applications.app_num INNER JOIN Adopters ON Applications.adopterID = Adopters.adopterID INNER JOIN Dogs ON AdoptionDetails.petID = Dogs.petID;"
         result = execute_query(db_connection, query).fetchall()
         print(result)
-
+        #query for form dropdown- diplays available & pending dogs
         query = 'SELECT petID, name from Dogs where adoption_status != "Adopted"'
         pets = execute_query(db_connection,query).fetchall()
         print(pets)
-
+    
         query = 'SELECT app_num, app_num from Applications'
         applications = execute_query(db_connection,query).fetchall()
         print(applications)
