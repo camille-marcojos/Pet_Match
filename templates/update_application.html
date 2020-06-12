@@ -36,6 +36,7 @@
 <!-- end navbar --> 
 <h1>Update Application:</h1>
 
+<button onclick="window.location.href = '/adoption_details';">Add a Dog to an Application</button><br><br>
 <form id="update_application" action="/update_application/{{app[0]}}" method="post">
         <input type="hidden" name="app_id" value="{{ app[0] }}">
         <input type="hidden" name="adopter_id" value="{{ app[4] }}">
@@ -76,7 +77,8 @@
             {% endif %}
         {% endfor %}
         </select><br>
-
+        
+        <!-- NO LONGER IMPLEMENTING UPDATES TO DOGS ON APP UPDATE
         <label for="petID1">Dog #1:</label>
         <select name="petID1">
         <option value = "">Select Dog</option>
@@ -117,7 +119,7 @@
                 <option value ="{{ p[0] }}">{{ p[2] }}</option>
             {% endif %}
         {% endfor %}
-        </select><br>
+        </select><br>-->
     
         <label for="meetGreet">Meet & Greet:</label>
         <select name="meetGreet">

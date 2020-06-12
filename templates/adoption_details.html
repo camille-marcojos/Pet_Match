@@ -91,11 +91,11 @@
     <fieldset>
       <legend>Add a pet to an application</legend>
 
-        <label for="appID">App ID:</label>
+        <label for="appID">Application</label>
         <select name="appID">
-            <option value="">Select App ID</option>
+            <option value="">Select Application</option>
             {% for a in apps %}
-            <option value="{{ a[0] }}">{{ a[1] }}</option>
+            <option value="{{ a[0] }}">{{ a[2] }} {{ a[3] }}</option>
             {% endfor %}
         </select><br> 
 
